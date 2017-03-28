@@ -238,13 +238,13 @@ def createDockerStartWithDbJob(def jobName, def folder, def dockerImageName, def
         shell("sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter=\"name=${dockerImageNameOfDb}\") | true ")
         shell("sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter=\"name=${dockerImageNameOfDb}\") | true ")
         shell('echo "Starting Docker Container ${dockerImageNameOfDb} with port ${dockerPortMappingOfDb}"')
-        shell("sudo /usr/bin/docker run --network=host --restart=failure --env-file ./env -d --name ${dockerImageNameOfDb} -p=${dockerPortMappingOfDb} ${dockerImageNameOfDb}")
+        shell("sudo /usr/bin/docker run --network=host --restart always --env-file ./env -d --name ${dockerImageNameOfDb} -p=${dockerPortMappingOfDb} ${dockerImageNameOfDb}")
 		
         shell('echo "Stopping Docker Container ${dockerImageName} with port ${dockerPortMapping}"')
         shell("sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter=\"name=${dockerImageName}\") | true ")
         shell("sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter=\"name=${dockerImageName}\") | true ")
         shell('echo "Starting Docker Container ${dockerImageName} with port ${dockerPortMapping}"')
-        shell("sudo /usr/bin/docker run --network=host --restart=failure --env-file ./env -d --name ${dockerImageName} -p=${dockerPortMapping} ${dockerImageName}")
+        shell("sudo /usr/bin/docker run --network=host --restart always --env-file ./env -d --name ${dockerImageName} -p=${dockerPortMapping} ${dockerImageName}")
       }
     }
     publishers {
@@ -272,7 +272,7 @@ def createDockerStartJob(def jobName, def folder, def dockerImageName, def docke
         shell("sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter=\"name=${dockerImageName}\") | true ")
         shell("sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter=\"name=${dockerImageName}\") | true ")
         shell('echo "Starting Docker Container ${dockerImageName} with port ${dockerPortMapping}"')
-        shell("sudo /usr/bin/docker run --network=host --restart=failure --env-file ./env -d --name ${dockerImageName} -p=${dockerPortMapping} ${dockerImageName}")
+        shell("sudo /usr/bin/docker run --network=host --restart always --env-file ./env -d --name ${dockerImageName} -p=${dockerPortMapping} ${dockerImageName}")
       }
     }
     publishers {
