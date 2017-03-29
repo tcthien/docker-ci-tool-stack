@@ -338,12 +338,85 @@ buildPipelineView('cl-config') {
     refreshFrequency(60)
 }
 
+buildPipelineView('cl-registry') {
+    filterBuildQueue()
+    filterExecutors()
+    title('Codelab Registry Service')
+    displayedBuilds(5)
+    selectedJob("codelab-registry-service-1-ci")
+    alwaysAllowManualTrigger()
+    refreshFrequency(60)
+}
+buildPipelineView('cl-monitoring') {
+    filterBuildQueue()
+    filterExecutors()
+    title('Codelab Monitoring Service')
+    displayedBuilds(5)
+    selectedJob("codelab-monitoring-service-1-ci")
+    alwaysAllowManualTrigger()
+    refreshFrequency(60)
+}
+buildPipelineView('cl-gateway') {
+    filterBuildQueue()
+    filterExecutors()
+    title('Codelab Gateway Service')
+    displayedBuilds(5)
+    selectedJob("codelab-gateway-service-1-ci")
+    alwaysAllowManualTrigger()
+    refreshFrequency(60)
+}
+buildPipelineView('cl-auth') {
+    filterBuildQueue()
+    filterExecutors()
+    title('Codelab Auth Service')
+    displayedBuilds(5)
+    selectedJob("codelab-auth-service-1-ci")
+    alwaysAllowManualTrigger()
+    refreshFrequency(60)
+}
+buildPipelineView('cl-account') {
+    filterBuildQueue()
+    filterExecutors()
+    title('Codelab Account Service')
+    displayedBuilds(5)
+    selectedJob("codelab-account-service-1-ci")
+    alwaysAllowManualTrigger()
+    refreshFrequency(60)
+}
+buildPipelineView('cl-article') {
+    filterBuildQueue()
+    filterExecutors()
+    title('Codelab Article Service')
+    displayedBuilds(5)
+    selectedJob("codelab-article-service-1-ci")
+    alwaysAllowManualTrigger()
+    refreshFrequency(60)
+}
+
 listView('Codelab') {
     description('')
     filterBuildQueue()
     filterExecutors()
     jobs {
         regex(/codelab-.*/)
+    }
+    columns {
+        status()
+        buildButton()
+        weather()
+        name()
+        lastSuccess()
+        lastFailure()
+        lastDuration()
+    }
+}
+
+listView('Codelab-ci') {
+    description('')
+    filterBuildQueue()
+    filterExecutors()
+    jobs {
+        regex(/codelab-.*-ci/)
     }
     columns {
         status()
