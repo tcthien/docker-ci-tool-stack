@@ -171,7 +171,7 @@ def createDockerBuildWithDbJob(def jobName, def folder, def dockerImageName, def
     }
     steps {
       steps {
-		shell("cd ${folder} && sudo /usr/bin/docker build -t ${dockerImageNameOfDb} .")
+		shell("cd ${folder} && sudo /usr/bin/docker build -t ${dockerImageNameOfDb} mongodb")
         shell("cd ${folder} && sudo /usr/bin/docker build -t ${dockerImageName} .")
       }
     }
