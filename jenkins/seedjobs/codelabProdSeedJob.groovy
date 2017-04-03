@@ -62,7 +62,7 @@ def createDockerBuildWithDbJob(def jobName, def dockerImageName, def dockerImage
     }
     publishers {
       downstreamParameterized {
-        trigger("${jobName}-4-docker-start-container") {
+        trigger("${jobName}-2-docker-start") {
           parameters {
             currentBuild()
           }
@@ -89,7 +89,7 @@ def createDockerBuildJob(def jobName, def dockerImageName, def registryUrl, def 
     }
     publishers {
       downstreamParameterized {
-        trigger("${jobName}-4-docker-start-container") {
+        trigger("${jobName}-2-docker-start") {
           parameters {
             currentBuild()
           }
