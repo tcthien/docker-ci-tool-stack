@@ -15,31 +15,31 @@ def registryUser = 'admin'
 def registryPass = 'admin123'
 
 // Create Job for codelab-config-service
-createDockerBuildJob("codelab-prod-config-service", "codelab-config-service", registryUrl, admin, admin123)
+createDockerBuildJob("codelab-prod-config-service", "codelab-config-service", registryUrl, registryUser, registryPass)
 createDockerStartJob("codelab-prod-config-service", "codelab-config-service", "20088:20088")
 createDockerStopJob("codelab-prod-config-service", "codelab-config-service")
 
-createDockerBuildJob("codelab-prod-registry-service", "codelab-registry-service", registryUrl, admin, admin123)
+createDockerBuildJob("codelab-prod-registry-service", "codelab-registry-service", registryUrl, registryUser, registryPass)
 createDockerStartJob("codelab-prod-registry-service", "codelab-registry-service", "20087:20087")
 createDockerStopJob("codelab-prod-registry-service", "codelab-registry-service")
 
-createDockerBuildJob("codelab-prod-gateway-service", "codelab-gateway-service", registryUrl, admin, admin123)
+createDockerBuildJob("codelab-prod-gateway-service", "codelab-gateway-service", registryUrl, registryUser, registryPass)
 createDockerStartJob("codelab-prod-gateway-service", "codelab-gateway-service", "20080:20080")
 createDockerStopJob("codelab-prod-gateway-service", "codelab-gateway-service")
 
-createDockerBuildJob("codelab-prod-monitoring-service", "codelab-monitoring-service", registryUrl, admin, admin123)
+createDockerBuildJob("codelab-prod-monitoring-service", "codelab-monitoring-service", registryUrl, registryUser, registryPass)
 createDockerStartJob("codelab-prod-monitoring-service", "codelab-monitoring-service", "20086:20086 -p 20085:20085")
 createDockerStopJob("codelab-prod-monitoring-service", "codelab-monitoring-service")
 
-createDockerBuildWithDbJob("codelab-prod-auth-service", "codelab-auth-service", "codelab-auth-mongodb", registryUrl, admin, admin123)
+createDockerBuildWithDbJob("codelab-prod-auth-service", "codelab-auth-service", "codelab-auth-mongodb", registryUrl, registryUser, registryPass)
 createDockerStartWithDbJob("codelab-prod-auth-service", "codelab-auth-service", "20084:20084", "codelab-auth-mongodb", "20184:27017")
 createDockerStopWithDbJob("codelab-prod-auth-service", "codelab-auth-service", "codelab-auth-mongodb")
 
-createDockerBuildWithDbJob("codelab-prod-account-service", "codelab-account-service", "codelab-account-mongodb", registryUrl, admin, admin123)
+createDockerBuildWithDbJob("codelab-prod-account-service", "codelab-account-service", "codelab-account-mongodb", registryUrl, registryUser, registryPass)
 createDockerStartWithDbJob("codelab-prod-account-service", "codelab-account-service", "20082:20082", "codelab-account-mongodb", "20182:27017")
 createDockerStopWithDbJob("codelab-prod-account-service", "codelab-account-service", "codelab-account-mongodb")
 
-createDockerBuildWithDbJob("codelab-prod-article-service", "codelab-article-service", "codelab-article-mongodb", registryUrl, admin, admin123)
+createDockerBuildWithDbJob("codelab-prod-article-service", "codelab-article-service", "codelab-article-mongodb", registryUrl, registryUser, registryPass)
 createDockerStartWithDbJob("codelab-prod-article-service", "codelab-article-service", "20083:20083", "codelab-article-mongodb", "20183:27017")
 createDockerStopWithDbJob("codelab-prod-article-service", "codelab-article-service", "codelab-article-mongodb")
 
