@@ -10,7 +10,7 @@ def gitCodelabAccount = 'https://github.com/tcthien/codelab-account-service'
 def gitCodelabArticle = 'https://github.com/tcthien/codelab-article-service'
 
 // Docker Registry Authentication
-def registryUrl = 'registry:5000'
+def registryUrl = 'codelab.local:5000'
 def registryUser = 'admin'
 def registryPass = 'admin123'
 
