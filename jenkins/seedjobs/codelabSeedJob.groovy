@@ -180,15 +180,6 @@ def createDockerBuildWithDbJob(def jobName, def folder, def dockerImageName, def
       }
     }
     publishers {
-      /*
-      downstreamParameterized {
-        trigger("${jobName}-4-docker-start-container") {
-          parameters {
-            currentBuild()
-          }
-        }
-      }
-      */
     }
   }
 }
@@ -214,15 +205,6 @@ def createDockerBuildJob(def jobName, def folder, def dockerImageName, def regis
       }
     }
     publishers {
-      /*
-      downstreamParameterized {
-        trigger("${jobName}-4-docker-start-container") {
-          parameters {
-            currentBuild()
-          }
-        }
-      }
-      */
     }
   }
 }
