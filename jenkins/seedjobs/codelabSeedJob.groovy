@@ -1,7 +1,6 @@
 /**
 *	User define parameters
 */
-def nexusRepo = 'http://nexus:8081/content/repositories/releases/'
 def gitCodelabConfig = 'https://github.com/tcthien/codelab-config-service'
 def gitCodelabRegistry = 'https://github.com/tcthien/codelab-registry-service'
 def gitCodelabGateway = 'https://github.com/tcthien/codelab-gateway-service'
@@ -10,55 +9,58 @@ def gitCodelabAuth = 'https://github.com/tcthien/codelab-auth-service'
 def gitCodelabAccount = 'https://github.com/tcthien/codelab-account-service'
 def gitCodelabArticle = 'https://github.com/tcthien/codelab-article-service'
 
+// Docker Registry Authentication
+def registryUrl = 'registry:5000'
+def registryUser = 'admin'
+def registryPass = 'admin123'
 
 // Create Job for codelab-config-service
-createCiJob("codelab-config-service", gitCodelabConfig, "pom.xml", nexusRepo)
+createCiJob("codelab-config-service", gitCodelabConfig, "pom.xml")
 createSonarJob("codelab-config-service", "pom.xml")
-createDockerBuildJob("codelab-config-service", ".", "codelab-config-service")
+createDockerBuildJob("codelab-config-service", ".", "codelab-config-service", registryUrl, admin, admin123)
 createDockerStartJob("codelab-config-service", ".", "codelab-config-service", "20088:20088")
 createDockerStopJob("codelab-config-service", ".", "codelab-config-service")
 
-createCiJob("codelab-registry-service", gitCodelabRegistry, "pom.xml", nexusRepo)
+createCiJob("codelab-registry-service", gitCodelabRegistry, "pom.xml")
 createSonarJob("codelab-registry-service", "pom.xml")
-createDockerBuildJob("codelab-registry-service", ".", "codelab-registry-service")
+createDockerBuildJob("codelab-registry-service", ".", "codelab-registry-service", registryUrl, admin, admin123)
 createDockerStartJob("codelab-registry-service", ".", "codelab-registry-service", "20087:20087")
 createDockerStopJob("codelab-registry-service", ".", "codelab-registry-service")
 
-createCiJob("codelab-gateway-service", gitCodelabGateway, "pom.xml", nexusRepo)
+createCiJob("codelab-gateway-service", gitCodelabGateway, "pom.xml")
 createSonarJob("codelab-gateway-service", "pom.xml")
-createDockerBuildJob("codelab-gateway-service", ".", "codelab-gateway-service")
+createDockerBuildJob("codelab-gateway-service", ".", "codelab-gateway-service", registryUrl, admin, admin123)
 createDockerStartJob("codelab-gateway-service", ".", "codelab-gateway-service", "20080:20080")
 createDockerStopJob("codelab-gateway-service", ".", "codelab-gateway-service")
 
-createCiJob("codelab-monitoring-service", gitCodelabMonitoring, "pom.xml", nexusRepo)
+createCiJob("codelab-monitoring-service", gitCodelabMonitoring, "pom.xml")
 createSonarJob("codelab-monitoring-service", "pom.xml")
-createDockerBuildJob("codelab-monitoring-service", ".", "codelab-monitoring-service")
+createDockerBuildJob("codelab-monitoring-service", ".", "codelab-monitoring-service", registryUrl, admin, admin123)
 createDockerStartJob("codelab-monitoring-service", ".", "codelab-monitoring-service", "20086:20086 -p 20085:20085")
 createDockerStopJob("codelab-monitoring-service", ".", "codelab-monitoring-service")
 
-createCiJob("codelab-auth-service", gitCodelabAuth, "pom.xml", nexusRepo)
+createCiJob("codelab-auth-service", gitCodelabAuth, "pom.xml")
 createSonarJob("codelab-auth-service", "pom.xml")
-createDockerBuildWithDbJob("codelab-auth-service", ".", "codelab-auth-service", "codelab-auth-mongodb")
+createDockerBuildWithDbJob("codelab-auth-service", ".", "codelab-auth-service", "codelab-auth-mongodb", registryUrl, admin, admin123)
 createDockerStartWithDbJob("codelab-auth-service", ".", "codelab-auth-service", "20084:20084", "codelab-auth-mongodb", "20184:27017")
 createDockerStopWithDbJob("codelab-auth-service", ".", "codelab-auth-service", "codelab-auth-mongodb")
 
-createCiJob("codelab-account-service", gitCodelabAccount, "pom.xml", nexusRepo)
+createCiJob("codelab-account-service", gitCodelabAccount, "pom.xml")
 createSonarJob("codelab-account-service", "pom.xml")
-createDockerBuildWithDbJob("codelab-account-service", ".", "codelab-account-service", "codelab-account-mongodb")
+createDockerBuildWithDbJob("codelab-account-service", ".", "codelab-account-service", "codelab-account-mongodb", registryUrl, admin, admin123)
 createDockerStartWithDbJob("codelab-account-service", ".", "codelab-account-service", "20082:20082", "codelab-account-mongodb", "20182:27017")
 createDockerStopWithDbJob("codelab-account-service", ".", "codelab-account-service", "codelab-account-mongodb")
 
-createCiJob("codelab-article-service", gitCodelabArticle, "pom.xml", nexusRepo)
+createCiJob("codelab-article-service", gitCodelabArticle, "pom.xml")
 createSonarJob("codelab-article-service", "pom.xml")
-createDockerBuildWithDbJob("codelab-article-service", ".", "codelab-article-service", "codelab-article-mongodb")
+createDockerBuildWithDbJob("codelab-article-service", ".", "codelab-article-service", "codelab-article-mongodb", registryUrl, admin, admin123)
 createDockerStartWithDbJob("codelab-article-service", ".", "codelab-article-service", "20083:20083", "codelab-article-mongodb", "20183:27017")
 createDockerStopWithDbJob("codelab-article-service", ".", "codelab-article-service", "codelab-article-mongodb")
 
-def createCiJob(def jobName, def gitUrl, def pomFile, def nexusRepo) {
+def createCiJob(def jobName, def gitUrl, def pomFile) {
   job("${jobName}-1-ci") {
     parameters {
       stringParam("BRANCH", "master", "Define TAG or BRANCH to build from")
-      stringParam("REPOSITORY_URL", nexusRepo, "Nexus Release Repository URL")
     }
     scm {
       git {
@@ -87,7 +89,7 @@ def createCiJob(def jobName, def gitUrl, def pomFile, def nexusRepo) {
           providedGlobalSettings('MyGlobalSettings')
       }
       maven {
-        goals('clean deploy')
+        goals('clean install')
         mavenInstallation('Maven 3.3.3')
         rootPOM(pomFile)
         mavenOpts('-Xms512m -Xmx1024m')
@@ -95,7 +97,6 @@ def createCiJob(def jobName, def gitUrl, def pomFile, def nexusRepo) {
       }
     }
     publishers {
-      chucknorris()
       archiveXUnit {
         jUnit {
           pattern('**/target/surefire-reports/*.xml')
@@ -144,7 +145,6 @@ def createSonarJob(def jobName, def pomFile) {
       }
     }
     publishers {
-      chucknorris()
       downstreamParameterized {
         trigger("${jobName}-3-docker-build") {
           parameters {
@@ -156,7 +156,7 @@ def createSonarJob(def jobName, def pomFile) {
   }
 }
 
-def createDockerBuildWithDbJob(def jobName, def folder, def dockerImageName, def dockerImageNameOfDb) {
+def createDockerBuildWithDbJob(def jobName, def folder, def dockerImageName, def dockerImageNameOfDb, def registryUrl, def registryUser, def registryPass) {
 
   println "############################################################################################################"
   println "Creating Docker Build Job for ${jobName} "
@@ -171,12 +171,16 @@ def createDockerBuildWithDbJob(def jobName, def folder, def dockerImageName, def
     }
     steps {
       steps {
-		shell("cd ${folder} && sudo /usr/bin/docker build -t ${dockerImageNameOfDb} mongodb")
+        shell("cd ${folder}/mongodb && sudo /usr/bin/docker build -t ${dockerImageNameOfDb} .")
+        shell("cd ${folder}/mongodb && sudo /usr/bin/docker tag ${dockerImageNameOfDb} ${registryUrl}/codelab/${dockerImageNameOfDb}")
+        shell("cd ${folder}/mongodb && sudo /usr/bin/docker login ${registryUrl} -u ${registryUser} -p ${registryPass} && sudo /usr/bin/docker push ${registryUrl}/codelab/${dockerImageNameOfDb}")
         shell("cd ${folder} && sudo /usr/bin/docker build -t ${dockerImageName} .")
+        shell("cd ${folder} && sudo /usr/bin/docker tag ${dockerImageName} ${registryUrl}/codelab/${dockerImageName}")
+        shell("cd ${folder} && sudo /usr/bin/docker login ${registryUrl} -u ${registryUser} -p ${registryPass} && sudo /usr/bin/docker push ${registryUrl}/codelab/${dockerImageName}")
       }
     }
     publishers {
-      chucknorris()
+      /*
       downstreamParameterized {
         trigger("${jobName}-4-docker-start-container") {
           parameters {
@@ -184,11 +188,12 @@ def createDockerBuildWithDbJob(def jobName, def folder, def dockerImageName, def
           }
         }
       }
+      */
     }
   }
 }
 
-def createDockerBuildJob(def jobName, def folder, def dockerImageName) {
+def createDockerBuildJob(def jobName, def folder, def dockerImageName, def registryUrl, def registryUser, def registryPass) {
 
   println "############################################################################################################"
   println "Creating Docker Build Job for ${jobName} "
@@ -204,10 +209,12 @@ def createDockerBuildJob(def jobName, def folder, def dockerImageName) {
     steps {
       steps {
         shell("cd ${folder} && sudo /usr/bin/docker build -t ${dockerImageName} .")
+        shell("cd ${folder} && sudo /usr/bin/docker tag ${dockerImageName} ${registryUrl}/codelab/${dockerImageName}")
+        shell("cd ${folder} && sudo /usr/bin/docker login ${registryUrl} -u ${registryUser} -p ${registryPass} && sudo /usr/bin/docker push ${registryUrl}/codelab/${dockerImageName}")
       }
     }
     publishers {
-      chucknorris()
+      /*
       downstreamParameterized {
         trigger("${jobName}-4-docker-start-container") {
           parameters {
@@ -215,6 +222,7 @@ def createDockerBuildJob(def jobName, def folder, def dockerImageName) {
           }
         }
       }
+      */
     }
   }
 }
@@ -229,12 +237,12 @@ def createDockerStartWithDbJob(def jobName, def folder, def dockerImageName, def
     logRotator {
         numToKeep(10)
     }
-	scm {
+    scm {
       cloneWorkspace("${jobName}-1-ci")
     }
     steps {
       steps {
-		shell('echo "Stopping Docker Container ${dockerImageNameOfDb} with port ${dockerPortMappingOfDb}"')
+        shell('echo "Stopping Docker Container ${dockerImageNameOfDb} with port ${dockerPortMappingOfDb}"')
         shell("sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter=\"name=${dockerImageNameOfDb}\") | true ")
         shell("sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter=\"name=${dockerImageNameOfDb}\") | true ")
         shell('echo "Starting Docker Container ${dockerImageNameOfDb} with port ${dockerPortMappingOfDb}"')
@@ -248,7 +256,6 @@ def createDockerStartWithDbJob(def jobName, def folder, def dockerImageName, def
       }
     }
     publishers {
-      chucknorris()
     }
   }
 }
@@ -263,7 +270,7 @@ def createDockerStartJob(def jobName, def folder, def dockerImageName, def docke
     logRotator {
         numToKeep(10)
     }
-	scm {
+    scm {
       cloneWorkspace("${jobName}-1-ci")
     }
     steps {
@@ -276,7 +283,6 @@ def createDockerStartJob(def jobName, def folder, def dockerImageName, def docke
       }
     }
     publishers {
-      chucknorris()
     }
   }
 }
@@ -301,7 +307,6 @@ def createDockerStopWithDbJob(def jobName, def folder, def dockerImageName, def 
       }
     }
     publishers {
-      chucknorris()
     }
   }
 }
@@ -323,7 +328,6 @@ def createDockerStopJob(def jobName, def folder, def dockerImageName) {
       }
     }
     publishers {
-      chucknorris()
     }
   }
 }
