@@ -64,6 +64,7 @@ def createDockerBuildWithDbJob(def jobName, def dockerImageName, def dockerImage
       downstreamParameterized {
         trigger("${jobName}-2-docker-start") {
           parameters {
+            new StringParameterValue('WORK_AROUND', "WORK_AROUND")
           }
         }
       }
@@ -90,6 +91,7 @@ def createDockerBuildJob(def jobName, def dockerImageName, def registryUrl, def 
       downstreamParameterized {
         trigger("${jobName}-2-docker-start") {
           parameters {
+            new StringParameterValue('WORK_AROUND', "WORK_AROUND")
           }
         }
       }
