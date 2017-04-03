@@ -153,7 +153,7 @@ def createDockerStartJob(def jobName, def dockerImageName, def dockerPortMapping
   }
 }
 
-def createDockerStopWithDbJob(def jobName, def folder, def dockerImageName, def dockerImageNameOfDb) {
+def createDockerStopWithDbJob(def jobName, def dockerImageName, def dockerImageNameOfDb) {
 
   println "############################################################################################################"
   println "Creating Docker Stop Job for ${jobName} "
@@ -177,7 +177,7 @@ def createDockerStopWithDbJob(def jobName, def folder, def dockerImageName, def 
   }
 }
 
-def createDockerStopJob(def jobName, def folder, def dockerImageName) {
+def createDockerStopJob(def jobName, def dockerImageName) {
 
   println "############################################################################################################"
   println "Creating Docker Stop Job for ${jobName} "
