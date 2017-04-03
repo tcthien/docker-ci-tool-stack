@@ -72,7 +72,7 @@ def createDockerBuildWithDbJob(def jobName, def dockerImageName, def dockerImage
   }
 }
 
-def createDockerBuildJob(def jobName, def registryUrl, def registryUser, def registryPass) {
+def createDockerBuildJob(def jobName, def dockerImageNam, def registryUrl, def registryUser, def registryPass) {
 
   println "############################################################################################################"
   println "Creating Docker Build Job for ${jobName} "
