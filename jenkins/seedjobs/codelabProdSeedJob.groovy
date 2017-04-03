@@ -16,31 +16,31 @@ def registryPass = 'admin123'
 
 // Create Job for codelab-config-service
 createDockerBuildJob("codelab-prod-config-service", "codelab-config-service", registryUrl, registryUser, registryPass)
-createDockerStartJob("codelab-prod-config-service", "codelab-config-service", "20088:20088", gitCodelabConfig)
+createDockerStartJob("codelab-prod-config-service", "codelab-config-service", "20088:20088", gitCodelabConfig, registryUrl)
 createDockerStopJob("codelab-prod-config-service", "codelab-config-service")
 
 createDockerBuildJob("codelab-prod-registry-service", "codelab-registry-service", registryUrl, registryUser, registryPass)
-createDockerStartJob("codelab-prod-registry-service", "codelab-registry-service", "20087:20087", gitCodelabRegistry)
+createDockerStartJob("codelab-prod-registry-service", "codelab-registry-service", "20087:20087", gitCodelabRegistry, registryUrl)
 createDockerStopJob("codelab-prod-registry-service", "codelab-registry-service")
 
 createDockerBuildJob("codelab-prod-gateway-service", "codelab-gateway-service", registryUrl, registryUser, registryPass)
-createDockerStartJob("codelab-prod-gateway-service", "codelab-gateway-service", "20080:20080", gitCodelabGateway)
+createDockerStartJob("codelab-prod-gateway-service", "codelab-gateway-service", "20080:20080", gitCodelabGateway, registryUrl)
 createDockerStopJob("codelab-prod-gateway-service", "codelab-gateway-service")
 
 createDockerBuildJob("codelab-prod-monitoring-service", "codelab-monitoring-service", registryUrl, registryUser, registryPass)
-createDockerStartJob("codelab-prod-monitoring-service", "codelab-monitoring-service", "20086:20086 -p 20085:20085", gitCodelabMonitoring)
+createDockerStartJob("codelab-prod-monitoring-service", "codelab-monitoring-service", "20086:20086 -p 20085:20085", gitCodelabMonitoring, registryUrl)
 createDockerStopJob("codelab-prod-monitoring-service", "codelab-monitoring-service")
 
 createDockerBuildWithDbJob("codelab-prod-auth-service", "codelab-auth-service", "codelab-auth-mongodb", registryUrl, registryUser, registryPass)
-createDockerStartWithDbJob("codelab-prod-auth-service", "codelab-auth-service", "20084:20084", "codelab-auth-mongodb", "20184:27017", gitCodelabAuth)
+createDockerStartWithDbJob("codelab-prod-auth-service", "codelab-auth-service", "20084:20084", "codelab-auth-mongodb", "20184:27017", gitCodelabAuth, registryUrl)
 createDockerStopWithDbJob("codelab-prod-auth-service", "codelab-auth-service", "codelab-auth-mongodb")
 
 createDockerBuildWithDbJob("codelab-prod-account-service", "codelab-account-service", "codelab-account-mongodb", registryUrl, registryUser, registryPass)
-createDockerStartWithDbJob("codelab-prod-account-service", "codelab-account-service", "20082:20082", "codelab-account-mongodb", "20182:27017", gitCodelabAccount)
+createDockerStartWithDbJob("codelab-prod-account-service", "codelab-account-service", "20082:20082", "codelab-account-mongodb", "20182:27017", gitCodelabAccount, registryUrl)
 createDockerStopWithDbJob("codelab-prod-account-service", "codelab-account-service", "codelab-account-mongodb")
 
 createDockerBuildWithDbJob("codelab-prod-article-service", "codelab-article-service", "codelab-article-mongodb", registryUrl, registryUser, registryPass)
-createDockerStartWithDbJob("codelab-prod-article-service", "codelab-article-service", "20083:20083", "codelab-article-mongodb", "20183:27017", gitCodelabArticle)
+createDockerStartWithDbJob("codelab-prod-article-service", "codelab-article-service", "20083:20083", "codelab-article-mongodb", "20183:27017", gitCodelabArticle, registryUrl)
 createDockerStopWithDbJob("codelab-prod-article-service", "codelab-article-service", "codelab-article-mongodb")
 
 
@@ -99,7 +99,7 @@ def createDockerBuildJob(def jobName, def dockerImageName, def registryUrl, def 
   }
 }
 
-def createDockerStartWithDbJob(def jobName, def dockerImageName, def dockerPortMapping, def dockerImageNameOfDb, def dockerPortMappingOfDb, def gitUrl) {
+def createDockerStartWithDbJob(def jobName, def dockerImageName, def dockerPortMapping, def dockerImageNameOfDb, def dockerPortMappingOfDb, def gitUrl, def registryUrl) {
 
   println "############################################################################################################"
   println "Creating Docker Start Job for ${jobName} "
@@ -150,7 +150,7 @@ def createDockerStartWithDbJob(def jobName, def dockerImageName, def dockerPortM
   }
 }
 
-def createDockerStartJob(def jobName, def dockerImageName, def dockerPortMapping, def gitUrl) {
+def createDockerStartJob(def jobName, def dockerImageName, def dockerPortMapping, def gitUrl, def registryUrl) {
 
   println "############################################################################################################"
   println "Creating Docker Start Job for ${jobName} "
