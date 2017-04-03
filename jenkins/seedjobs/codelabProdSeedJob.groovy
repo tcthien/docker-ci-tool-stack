@@ -16,31 +16,31 @@ def registryPass = 'admin123'
 
 // Create Job for codelab-config-service
 createDockerBuildJob("codelab-prod-config-service", "codelab-config-service", registryUrl, registryUser, registryPass)
-createDockerStartJob("codelab-prod-config-service", "codelab-config-service", "20088:20088")
+createDockerStartJob("codelab-prod-config-service", "codelab-config-service", "20088:20088", gitCodelabConfig)
 createDockerStopJob("codelab-prod-config-service", "codelab-config-service")
 
 createDockerBuildJob("codelab-prod-registry-service", "codelab-registry-service", registryUrl, registryUser, registryPass)
-createDockerStartJob("codelab-prod-registry-service", "codelab-registry-service", "20087:20087")
+createDockerStartJob("codelab-prod-registry-service", "codelab-registry-service", "20087:20087", gitCodelabRegistry)
 createDockerStopJob("codelab-prod-registry-service", "codelab-registry-service")
 
 createDockerBuildJob("codelab-prod-gateway-service", "codelab-gateway-service", registryUrl, registryUser, registryPass)
-createDockerStartJob("codelab-prod-gateway-service", "codelab-gateway-service", "20080:20080")
+createDockerStartJob("codelab-prod-gateway-service", "codelab-gateway-service", "20080:20080", gitCodelabGateway)
 createDockerStopJob("codelab-prod-gateway-service", "codelab-gateway-service")
 
 createDockerBuildJob("codelab-prod-monitoring-service", "codelab-monitoring-service", registryUrl, registryUser, registryPass)
-createDockerStartJob("codelab-prod-monitoring-service", "codelab-monitoring-service", "20086:20086 -p 20085:20085")
+createDockerStartJob("codelab-prod-monitoring-service", "codelab-monitoring-service", "20086:20086 -p 20085:20085", gitCodelabMonitoring)
 createDockerStopJob("codelab-prod-monitoring-service", "codelab-monitoring-service")
 
 createDockerBuildWithDbJob("codelab-prod-auth-service", "codelab-auth-service", "codelab-auth-mongodb", registryUrl, registryUser, registryPass)
-createDockerStartWithDbJob("codelab-prod-auth-service", "codelab-auth-service", "20084:20084", "codelab-auth-mongodb", "20184:27017")
+createDockerStartWithDbJob("codelab-prod-auth-service", "codelab-auth-service", "20084:20084", "codelab-auth-mongodb", "20184:27017", gitCodelabAuth)
 createDockerStopWithDbJob("codelab-prod-auth-service", "codelab-auth-service", "codelab-auth-mongodb")
 
 createDockerBuildWithDbJob("codelab-prod-account-service", "codelab-account-service", "codelab-account-mongodb", registryUrl, registryUser, registryPass)
-createDockerStartWithDbJob("codelab-prod-account-service", "codelab-account-service", "20082:20082", "codelab-account-mongodb", "20182:27017")
+createDockerStartWithDbJob("codelab-prod-account-service", "codelab-account-service", "20082:20082", "codelab-account-mongodb", "20182:27017", gitCodelabAccount)
 createDockerStopWithDbJob("codelab-prod-account-service", "codelab-account-service", "codelab-account-mongodb")
 
 createDockerBuildWithDbJob("codelab-prod-article-service", "codelab-article-service", "codelab-article-mongodb", registryUrl, registryUser, registryPass)
-createDockerStartWithDbJob("codelab-prod-article-service", "codelab-article-service", "20083:20083", "codelab-article-mongodb", "20183:27017")
+createDockerStartWithDbJob("codelab-prod-article-service", "codelab-article-service", "20083:20083", "codelab-article-mongodb", "20183:27017", gitCodelabArticle)
 createDockerStopWithDbJob("codelab-prod-article-service", "codelab-article-service", "codelab-article-mongodb")
 
 
@@ -64,7 +64,6 @@ def createDockerBuildWithDbJob(def jobName, def dockerImageName, def dockerImage
       downstreamParameterized {
         trigger("${jobName}-2-docker-start") {
           parameters {
-            currentBuild()
           }
         }
       }
@@ -91,7 +90,6 @@ def createDockerBuildJob(def jobName, def dockerImageName, def registryUrl, def 
       downstreamParameterized {
         trigger("${jobName}-2-docker-start") {
           parameters {
-            currentBuild()
           }
         }
       }
@@ -99,7 +97,7 @@ def createDockerBuildJob(def jobName, def dockerImageName, def registryUrl, def 
   }
 }
 
-def createDockerStartWithDbJob(def jobName, def dockerImageName, def dockerPortMapping, def dockerImageNameOfDb, def dockerPortMappingOfDb) {
+def createDockerStartWithDbJob(def jobName, def dockerImageName, def dockerPortMapping, def dockerImageNameOfDb, def dockerPortMappingOfDb, def gitUrl) {
 
   println "############################################################################################################"
   println "Creating Docker Start Job for ${jobName} "
@@ -108,6 +106,27 @@ def createDockerStartWithDbJob(def jobName, def dockerImageName, def dockerPortM
   job("${jobName}-2-docker-start") {
     logRotator {
         numToKeep(10)
+    }
+    parameters {
+      stringParam("BRANCH", "master", "Define TAG or BRANCH to build from")
+    }
+    scm {
+      git {
+        remote {
+          url(gitUrl)
+        }
+        extensions {
+          cleanAfterCheckout()
+        }
+      }
+    }
+    wrappers {
+      colorizeOutput()
+      preBuildCleanup()
+    }
+    triggers {
+      scm('30/H * * * *')
+      githubPush()
     }
     steps {
       steps {
@@ -129,7 +148,7 @@ def createDockerStartWithDbJob(def jobName, def dockerImageName, def dockerPortM
   }
 }
 
-def createDockerStartJob(def jobName, def dockerImageName, def dockerPortMapping) {
+def createDockerStartJob(def jobName, def dockerImageName, def dockerPortMapping, def gitUrl) {
 
   println "############################################################################################################"
   println "Creating Docker Start Job for ${jobName} "
@@ -138,6 +157,27 @@ def createDockerStartJob(def jobName, def dockerImageName, def dockerPortMapping
   job("${jobName}-2-docker-start") {
     logRotator {
         numToKeep(10)
+    }
+    parameters {
+      stringParam("BRANCH", "master", "Define TAG or BRANCH to build from")
+    }
+    scm {
+      git {
+        remote {
+          url(gitUrl)
+        }
+        extensions {
+          cleanAfterCheckout()
+        }
+      }
+    }
+    wrappers {
+      colorizeOutput()
+      preBuildCleanup()
+    }
+    triggers {
+      scm('30/H * * * *')
+      githubPush()
     }
     steps {
       steps {
