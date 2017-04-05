@@ -136,13 +136,13 @@ def createDockerStartWithDbJob(def jobName, def dockerImageName, def dockerPortM
         shell("sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter=\"name=${dockerImageNameOfDb}\") | true ")
         shell("sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter=\"name=${dockerImageNameOfDb}\") | true ")
         shell('echo "Starting Docker Container ${dockerImageNameOfDb} with port ${dockerPortMappingOfDb}"')
-        shell("sudo /usr/bin/docker run --network=host --restart always -v ~/data:/data/db --env-file ./env -d --name ${dockerImageNameOfDb} -p=${dockerPortMappingOfDb} ${registryUrl}/codelab/${dockerImageNameOfDb}")
+        shell("sudo /usr/bin/docker run --restart always -v ~/data:/data/db --env-file ./env -d --name ${dockerImageNameOfDb} -p=${dockerPortMappingOfDb} ${registryUrl}/codelab/${dockerImageNameOfDb}")
 		
         shell('echo "Stopping Docker Container ${dockerImageName} with port ${dockerPortMapping}"')
         shell("sudo /usr/bin/docker stop \$(sudo /usr/bin/docker ps -a -q --filter=\"name=${dockerImageName}\") | true ")
         shell("sudo /usr/bin/docker rm \$(sudo /usr/bin/docker ps -a -q --filter=\"name=${dockerImageName}\") | true ")
         shell('echo "Starting Docker Container ${dockerImageName} with port ${dockerPortMapping}"')
-        shell("sudo /usr/bin/docker run --network=host --restart always --env-file ./env -d --link=${dockerImageNameOfDb} --name ${dockerImageName} -p=${dockerPortMapping} ${registryUrl}/codelab/${dockerImageName}")
+        shell("sudo /usr/bin/docker run --network=host --restart always --env-file ./env -d --name ${dockerImageName} -p=${dockerPortMapping} ${registryUrl}/codelab/${dockerImageName}")
       }
     }
     publishers {
