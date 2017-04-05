@@ -247,6 +247,7 @@ buildPipelineView('cl-config-prod') {
     displayedBuilds(5)
     selectedJob("codelab-prod-config-service-1-docker-pull")
     alwaysAllowManualTrigger()
+    showPipelineDefinitionHeader()
     refreshFrequency(60)
 }
 
@@ -257,6 +258,7 @@ buildPipelineView('cl-registry-prod') {
     displayedBuilds(5)
     selectedJob("codelab-prod-registry-service-1-docker-pull")
     alwaysAllowManualTrigger()
+    showPipelineDefinitionHeader()
     refreshFrequency(60)
 }
 buildPipelineView('cl-monitoring-prod') {
@@ -266,6 +268,7 @@ buildPipelineView('cl-monitoring-prod') {
     displayedBuilds(5)
     selectedJob("codelab-prod-monitoring-service-1-docker-pull")
     alwaysAllowManualTrigger()
+    showPipelineDefinitionHeader()
     refreshFrequency(60)
 }
 buildPipelineView('cl-gateway-prod') {
@@ -275,6 +278,7 @@ buildPipelineView('cl-gateway-prod') {
     displayedBuilds(5)
     selectedJob("codelab-prod-gateway-service-1-docker-pull")
     alwaysAllowManualTrigger()
+    showPipelineDefinitionHeader()
     refreshFrequency(60)
 }
 buildPipelineView('cl-auth-prod') {
@@ -284,6 +288,7 @@ buildPipelineView('cl-auth-prod') {
     displayedBuilds(5)
     selectedJob("codelab-prod-auth-service-1-docker-pull")
     alwaysAllowManualTrigger()
+    showPipelineDefinitionHeader()
     refreshFrequency(60)
 }
 buildPipelineView('cl-account-prod') {
@@ -293,6 +298,7 @@ buildPipelineView('cl-account-prod') {
     displayedBuilds(5)
     selectedJob("codelab-prod-account-service-1-docker-pull")
     alwaysAllowManualTrigger()
+    showPipelineDefinitionHeader()
     refreshFrequency(60)
 }
 buildPipelineView('cl-article-prod') {
@@ -302,5 +308,6 @@ buildPipelineView('cl-article-prod') {
     displayedBuilds(5)
     selectedJob("codelab-prod-article-service-1-docker-pull")
     alwaysAllowManualTrigger()
+    showPipelineDefinitionHeader()
     refreshFrequency(60)
 }
