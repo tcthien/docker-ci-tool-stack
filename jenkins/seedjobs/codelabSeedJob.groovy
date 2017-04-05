@@ -321,6 +321,7 @@ buildPipelineView('cl-config') {
     displayedBuilds(5)
     selectedJob("codelab-config-service-1-ci")
     alwaysAllowManualTrigger()
+    showPipelineDefinitionHeader()
     refreshFrequency(60)
 }
 
@@ -331,6 +332,7 @@ buildPipelineView('cl-registry') {
     displayedBuilds(5)
     selectedJob("codelab-registry-service-1-ci")
     alwaysAllowManualTrigger()
+    showPipelineDefinitionHeader()
     refreshFrequency(60)
 }
 buildPipelineView('cl-monitoring') {
@@ -340,6 +342,7 @@ buildPipelineView('cl-monitoring') {
     displayedBuilds(5)
     selectedJob("codelab-monitoring-service-1-ci")
     alwaysAllowManualTrigger()
+    showPipelineDefinitionHeader()
     refreshFrequency(60)
 }
 buildPipelineView('cl-gateway') {
@@ -349,6 +352,7 @@ buildPipelineView('cl-gateway') {
     displayedBuilds(5)
     selectedJob("codelab-gateway-service-1-ci")
     alwaysAllowManualTrigger()
+    showPipelineDefinitionHeader()
     refreshFrequency(60)
 }
 buildPipelineView('cl-auth') {
@@ -358,6 +362,7 @@ buildPipelineView('cl-auth') {
     displayedBuilds(5)
     selectedJob("codelab-auth-service-1-ci")
     alwaysAllowManualTrigger()
+    showPipelineDefinitionHeader()
     refreshFrequency(60)
 }
 buildPipelineView('cl-account') {
@@ -367,6 +372,7 @@ buildPipelineView('cl-account') {
     displayedBuilds(5)
     selectedJob("codelab-account-service-1-ci")
     alwaysAllowManualTrigger()
+    showPipelineDefinitionHeader()
     refreshFrequency(60)
 }
 buildPipelineView('cl-article') {
@@ -376,6 +382,7 @@ buildPipelineView('cl-article') {
     displayedBuilds(5)
     selectedJob("codelab-article-service-1-ci")
     alwaysAllowManualTrigger()
+    showPipelineDefinitionHeader()
     refreshFrequency(60)
 }
 
